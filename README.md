@@ -109,12 +109,108 @@ endmodule
 <img width="1919" height="1077" alt="image" src="https://github.com/user-attachments/assets/6839c169-bf2c-4ae6-b9da-e5b49e9ca612" />
 
 # Moore 1011
+# write verilog code for ROM using $random
+```
 
-// write verilog code for ROM using $random
+module moore(
+    input clk,
+    input rst,
+    input xin,
+    output reg zout
+);
 
-// Test bench
+    parameter [2:0]
+        s0 = 3'b000,
+        s1 = 3'b001,
+        s2 = 3'b010,
+        s3 = 3'b011,
+        s4 = 3'b100;
 
-// output Waveform
+    reg [2:0] ps, ns;
+
+    always @(posedge clk) begin
+        if (rst)
+            ps <= s0;
+        else
+            ps <= ns;
+    end
+
+    always @(*) begin 
+        case (ps)
+
+            s0: if (xin) begin
+                    ns = s1;
+                    zout = 0;
+                end else begin
+                    ns = s0;
+                    zout = 0;
+                end
+
+            s1: if (xin) begin
+                    ns = s1;
+                    zout = 0;
+                end else begin
+                    ns = s2;
+                    zout = 0;
+                end
+
+            s2: if (xin) begin
+                    ns = s3;
+                    zout = 0;
+                end else begin
+                    ns = s0;
+                    zout = 0;
+                end
+
+            s3: if (xin) begin
+                    ns = s4;
+                    zout = 0;
+                end else begin
+                    ns = s2;
+                    zout = 0;
+                end
+
+            s4: if (xin) begin
+                    ns = s1;
+                    zout = 1;
+                end else begin
+                    ns = s0;
+                    zout = 1;
+                end
+
+        endcase
+    end
+
+endmodule
+```
+# Test bench
+```
+module mooretb;
+    reg clk_t, rst_t, xin_t;
+    wire zout_t;
+
+    moore dut (.clk(clk_t), .rst(rst_t), .xin(xin_t), .zout(zout_t));
+
+    initial begin
+        clk_t = 1'b1;
+        rst_t = 1'b1;
+        #100 rst_t = 1'b0;
+        xin_t = 1'b1;
+        #100 xin_t = 1'b0;
+        #100 xin_t = 1'b1;
+        #100 xin_t = 1'b1;
+        #100 xin_t = 1'b1;
+        #100 xin_t = 1'b0;
+        #100 xin_t = 1'b1;
+        #100 xin_t = 1'b1;
+    end
+
+    always #50 clk_t = ~clk_t;
+
+endmodule
+```
+# output Waveform
+<img width="1916" height="1077" alt="image" src="https://github.com/user-attachments/assets/8efab0eb-2684-4476-be6d-ccfde15e841b" />
 
 
 
