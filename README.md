@@ -214,5 +214,5 @@ endmodule
 
 
 
-Conclusion
+# Conclusion
 The Mealy and Moore state machine for sequence 1011 was designed and successfully simulated using Verilog HDL. The testbench verified both the write and read functionalities by simulating the sequence operations and observing the output waveforms.
